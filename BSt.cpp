@@ -95,7 +95,7 @@ Pair IsBalance(node* temp){
     Pair p;
     if(temp==NULL){
         p.height=0;
-        p.diameter=1;
+        p.diameter=0;
         p.balance=true;
         return p;
     }

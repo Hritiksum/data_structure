@@ -9,6 +9,18 @@ public:
     node(int d):data(d),right(NULL),left(NULL){}
 };
 
+int countLeafnode(node* temp){
+    if(temp==NULL){
+        return 0;
+    }
+    if(temp->left==NULL && temp->right==NULL){
+        return 1;
+    }
+    return countLeafnode(temp->left)+countLeafnode(temp->right);
+}
+
+
+
 node* MinValueInTree(node* temp){
     node* Cache= temp;
     while(Cache && Cache->left!=NULL){
@@ -75,6 +87,7 @@ node* DoBalance(node* &root){
 class Pair{
 public:
     int height;
+    int diameter;
     bool balance;
 };
 
@@ -82,6 +95,7 @@ Pair IsBalance(node* temp){
     Pair p;
     if(temp==NULL){
         p.height=0;
+        p.diameter=1;
         p.balance=true;
         return p;
     }
@@ -90,6 +104,12 @@ Pair IsBalance(node* temp){
     Pair right=IsBalance(temp->right);
 
     p.height=max(left.height,right.height)+1;
+
+    int op1=left.height+right.height;
+    int op2=left.diameter;
+    int op3=right.diameter;
+    p.diameter=max(op1,max(op2,op3));
+
     if(left.balance && right.balance && abs(left.height-right.height)<=1){
         p.balance=true;
     }
@@ -169,33 +189,38 @@ int main(){
     LevelOrder(root);
     Pair p=IsBalance(root);
     if(p.balance){
-        cout<<endl<<"Tree is balance and it's height is "<<p.height;
+        cout<<endl<<"Tree is balance and it's height is "<<p.height<<" and its diameter is "<<p.diameter;
     }
     else{
-        cout<<endl<<"Tree is not balanced and it's height is "<<p.height<<endl;
+        cout<<endl<<"Tree is not balanced and it's height is "<<p.height<<" and its diameter is "<<p.diameter<<endl;
         cout<<endl<<"BALANCING TREE...."<<endl;
         root=DoBalance(root);
         LevelOrder(root);
         p=IsBalance(root);
-        cout<<endl<<"Tree is balanced now and its height is "<<p.height;
+        cout<<endl<<"Tree is balanced now and its height is "<<p.height<<" and its diameter is "<<p.diameter;
     }
     cout<<endl<<"Want to delete number: if yes-input '1' if no-input '0'";
     bool v;
     cin>>v;
     if(v==true){
-    cout<<endl<<"which number wants to delete"<<endl;
-    int key;
-    cin>>key;cout<<endl;
-    while(v){
-        root=Delete(root,key);
-        LevelOrder(root);
-        cout<<endl<<"Want to delete again: if yes-input '1' if no-input '0'"<<endl;
-        cin>>v;cout<<endl;
-        if(v==false){
-            break;
-        }
         cout<<endl<<"which number wants to delete"<<endl;
+        int key;
         cin>>key;cout<<endl;
+        while(v){
+            root=Delete(root,key);
+            LevelOrder(root);
+            cout<<endl<<"Want to delete again: if yes-input '1' if no-input '0'"<<endl;
+            cin>>v;
+            cout<<endl;
+            if(v==false){
+                break;
+            }
+            cout<<endl<<"which number wants to delete"<<endl;
+            cin>>key;
+            cout<<endl;
+        }
+        int leaf=countLeafnode(root);
+        cout<<"Number of leaf node in tree is "<<leaf;
     }
-    }
+    return 0;
 }

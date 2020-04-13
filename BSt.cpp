@@ -9,6 +9,42 @@ public:
     node(int d):data(d),right(NULL),left(NULL){}
 };
 
+node* MinValueInTree(node* temp){
+    node* Cache= temp;
+    while(Cache && Cache->left!=NULL){
+        Cache=Cache->left;
+    }
+    return Cache;
+}
+
+node* Delete(node* &temp, int data){
+    if(temp==NULL){
+        return NULL;
+    }
+    if(temp->data>data){
+        temp->left=Delete(temp->left,data);
+    }
+    else if(temp->data<data){
+        temp->right=Delete(temp->right,data);
+    }
+    else{
+        if(temp->left==NULL){
+            node* Cache=temp->right;
+            free(temp);
+            return Cache;
+        }
+        else if(temp->right==NULL){
+            node* Cache=temp->left;
+            free(temp);
+            return Cache;
+        }
+        node* Cache=MinValueInTree(temp->right);
+        temp->data=Cache->data;
+        temp->right=Delete(temp->right,Cache->data);
+    }
+    return temp;
+}
+
 node* BalancedTree(vector <node*> v, int Start,int End){
     if(Start>End){
         return NULL;
@@ -143,5 +179,23 @@ int main(){
         p=IsBalance(root);
         cout<<endl<<"Tree is balanced now and its height is "<<p.height;
     }
-//TODO:deletion
+    cout<<endl<<"Want to delete number: if yes-input '1' if no-input '0'";
+    bool v;
+    cin>>v;
+    if(v==true){
+    cout<<endl<<"which number wants to delete"<<endl;
+    int key;
+    cin>>key;cout<<endl;
+    while(v){
+        root=Delete(root,key);
+        LevelOrder(root);
+        cout<<endl<<"Want to delete again: if yes-input '1' if no-input '0'"<<endl;
+        cin>>v;cout<<endl;
+        if(v==false){
+            break;
+        }
+        cout<<endl<<"which number wants to delete"<<endl;
+        cin>>key;cout<<endl;
+    }
+    }
 }

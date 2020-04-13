@@ -105,7 +105,7 @@ Pair IsBalance(node* temp){
 
     p.height=max(left.height,right.height)+1;
 
-    int op1=left.height+right.height;
+    int op1=left.height+right.height+1;
     int op2=left.diameter;
     int op3=right.diameter;
     p.diameter=max(op1,max(op2,op3));

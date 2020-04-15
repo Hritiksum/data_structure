@@ -22,6 +22,84 @@ int Lenghtll(node* head){
     }
     return lenght;
 }
+
+//delete at end
+void DeleteEnd(node* &head, node* &tail){
+    if(head==NULL){
+        return;
+    }
+    else if(head->next==NULL){
+        delete head;
+        head=tail=NULL;
+    }
+    else{
+        node* temp= head;
+        while(temp->next!=NULL){
+            temp=temp->next;
+        }
+        temp->next=NULL;
+        delete tail;
+        tail=temp;
+    }
+}
+
+
+//delete at front
+void DeleteFront(node* &head,node* &tail){
+    if(head==NULL){
+        return;
+    }
+    else if(head->next==NULL){
+        delete head;
+        head=tail=NULL;
+    }
+    else{
+        node* temp=head;
+        head=head->next;
+        delete head;
+    }
+}
+
+//delete from givven position
+void DeleteMid(node* &head, node* tail, int pos){
+    if(pos==0){
+        DeleteFront(head,tail);
+        return;
+    }else if(pos>=Lenghtll(head)){
+        DeleteEnd(head,tail);
+        return;
+    }
+    else{
+        int jump=1;
+        node* temp=head;
+        while(jump<=pos-1){
+            temp=temp->next;
+            jump++;
+        }
+        node* temp1=temp->next;
+        temp->next=temp->next->next;
+        delete temp1;
+    }
+}
+
+
+
+
+//to find mid of Linklist
+node* FindMid(node* head){
+    if(head==NULL){
+        return NULL;
+    }
+    node* slow=head;
+    node* fast=head->next;
+    while(fast!=NULL && fast->next!=NULL){
+        fast=fast->next->next;
+        slow=slow->next;
+    }
+    return slow;
+}
+
+
 //print Linklist
 void printLL(node* head){
     if(head==NULL){
@@ -32,7 +110,8 @@ void printLL(node* head){
     printLL(head->next);
 }
 
-node* InsertFront(node* &head,node* &tail,int data){
+//insert at front
+void InsertFront(node* &head,node* &tail,int data){
     if(head==NULL){
         node* temp=new node(data);
         head=tail=temp;
@@ -44,7 +123,7 @@ node* InsertFront(node* &head,node* &tail,int data){
 }
 
 //insert at end of linklist
-node* InsertEnd(node* &head,node* &tail,int data){
+void InsertEnd(node* &head,node* &tail,int data){
     if(head==NULL){
         node* temp=new node(data);
         head=tail=temp;
@@ -56,8 +135,8 @@ node* InsertEnd(node* &head,node* &tail,int data){
     }
 }
 
-
-node* InsertMid(node* &head,node* &tail,int pos,int data){
+//to insert at any position of linklist
+void InsertMid(node* &head,node* &tail,int pos,int data){
     if(pos==0){
         InsertFront(head,tail,data);
     }
@@ -66,22 +145,24 @@ node* InsertMid(node* &head,node* &tail,int pos,int data){
     }
     else{
         int jump=1;
-        node* Cache=head;
+        node* temp=head;
         while(jump<=pos-1){
-            Cache=Cache->next;
+            temp=temp->next;
             jump++;
         }
-        node* temp=new node(data);
-        temp->next=Cache->next;
-        Cache->next=temp;
+        //like A-->B-->C-->D-->NULL
+        //want to put new node F btw B & C
+        //Ex- A-->B-->F-->C-->D-->NULL
+        //so point F-->next=B-->next(and B-->next==C)
+        //And B-->next should point F. So, B-->next=F;
+        node* Cache=new node(data);
+        Cache->next=temp->next;
+        temp->next=Cache;
     }
 }
 
-
-
-
 //insert at front
-node* Insert(node* &head,node* &tail,int data){
+void Insert(node* &head,node* &tail,int data){
     if(head==NULL){
         node* temp=new node(data);
         head=tail=temp;
@@ -92,8 +173,6 @@ node* Insert(node* &head,node* &tail,int data){
         tail=temp;
     }
 }
-
-
 
 //call insert funtion to create linklist
 node* Create(node* &head, node* &tail){
@@ -104,20 +183,40 @@ node* Create(node* &head, node* &tail){
         Insert(head,tail,data);
         cin>>data;
     }
-//    return head;
-    //cout<<head->data<<head->next->data;
+}
+
+node* searchKey(node* head,int key){
+    if(head==NULL){
+        return NULL;
+    }
+    node* temp=head;
+    while(temp){
+        if(temp->data==key){
+            return temp;
+        }
+        else{
+            temp=temp->next;
+        }
+    }
+    return NULL;
 }
 
 int main(){
     //linklist head and tail
     node* head=NULL;
     node* tail=NULL;
-    //function to create linklist
+
     Create(head,tail);
 //    InsertFront(head,tail,data);
 //    InsertEnd(head,tail,data);
 //    InsertMid(head,tail,3,100);
-
-
     printLL(head);
+    cout<<endl;
+    node* middle=FindMid(head);cout<<"middle value "<<middle->data;
+    node* temp=searchKey(head,5);
+    if(temp){
+        cout<<endl<<"found"<<temp->data;
+    }
+
+
 }

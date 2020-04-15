@@ -8,6 +8,7 @@ public:
     node(int d):data(d),next(NULL){}
 };
 
+//to check linkedlist is cyclic or not
 bool isCyclicll(node* head){
     if(head==NULL){
         return false;

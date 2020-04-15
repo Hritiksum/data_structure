@@ -1,7 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-//linklist node
+//linkedlist node
 class node{
 public:
     int data;
@@ -122,7 +122,7 @@ void InsertFront(node* &head,node* &tail,int data){
     }
 }
 
-//insert at end of linklist
+//insert at end of linkedlist
 void InsertEnd(node* &head,node* &tail,int data){
     if(head==NULL){
         node* temp=new node(data);
@@ -135,7 +135,7 @@ void InsertEnd(node* &head,node* &tail,int data){
     }
 }
 
-//to insert at any position of linklist
+//to insert at any position of linkedlist
 void InsertMid(node* &head,node* &tail,int pos,int data){
     if(pos==0){
         InsertFront(head,tail,data);
@@ -174,7 +174,7 @@ void Insert(node* &head,node* &tail,int data){
     }
 }
 
-//call insert funtion to create linklist
+//call insert funtion to create linkedlist
 node* Create(node* &head, node* &tail){
     int data;
     cout<<"input data"<<endl;
@@ -202,7 +202,7 @@ node* searchKey(node* head,int key){
 }
 
 int main(){
-    //linklist head and tail
+    //linkedlist head and tail
     node* head=NULL;
     node* tail=NULL;
 

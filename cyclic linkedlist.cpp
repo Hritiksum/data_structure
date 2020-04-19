@@ -83,6 +83,31 @@ void create(node* &head,node* &tail){
     }
 }
 
+//to break cyclic ll
+void BreakCycle(node* head){
+	node* fast = head;
+	node* slow = head;
+	while(fast){
+		fast = fast->next->next;
+		slow=slow->next;
+		if(fast == slow){
+			break;
+		}
+	}
+	node* p = head;
+	while(p->next!=fast){
+		p = p->next;
+	}
+
+	slow = head;
+	while(slow!=fast){
+		p = fast;
+		fast=fast->next;
+		slow = slow->next;
+	}
+	p->next = NULL;
+}
+
 int main(){
     node* head=NULL;
     node* tail=NULL;

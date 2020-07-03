@@ -34,10 +34,10 @@ void DeleteEnd(node* &head, node* &tail){
     }
     else{
         node* temp= head;
-        while(temp->next!=NULL){
+        while(temp->next->next!=NULL){
             temp=temp->next;
         }
-        temp=NULL;
+        temp->next=NULL;
         delete tail;
         tail=temp;
     }

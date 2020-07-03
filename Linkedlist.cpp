@@ -37,7 +37,7 @@ void DeleteEnd(node* &head, node* &tail){
         while(temp->next!=NULL){
             temp=temp->next;
         }
-        temp->next=NULL;
+        temp=NULL;
         delete tail;
         tail=temp;
     }

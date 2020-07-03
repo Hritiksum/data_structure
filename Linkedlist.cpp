@@ -56,7 +56,7 @@ void DeleteFront(node* &head,node* &tail){
     else{
         node* temp=head;
         head=head->next;
-        delete head;
+        delete temp;
     }
 }
 
